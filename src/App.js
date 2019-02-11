@@ -32,8 +32,9 @@ class App extends Component {
         let userUid = snap.user.uid;
         let userName = this.state.userName;
         let userEmail = snap.user.email;
+        let isActive = false;
 
-        let userData = { userUid, userName, userEmail }
+        let userData = { userUid, userName, userEmail, isActive }
 
         firebase.database().ref(`users/${userUid}`).set(userData)
           .then(() => {
@@ -72,21 +73,25 @@ class App extends Component {
 
   componentDidMount() {
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-
-        let currentUser = { userUid: user.uid, userName: "" }
-        this.setState({ currentUser })
-      }
-    })
-
     firebase.database().ref('/').on("value", snap => {
       let data = snap.val() === null ? {} : snap.val()
 
       let users = data.users ? Object.values(data.users) : [];
-      let currentUser = users.filter(user => user.userUid === this.state.currentUser.userUid);
       let messages = data.messages ? Object.values(data.messages) : [];
-      this.setState({ users, messages, currentUser: currentUser !== [] ? currentUser[0] : {} })
+      this.setState({ users, messages })
+
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          firebase.database().ref(`users/${user.uid}/isActive`).set(true)
+            .then(() => {
+              let currentUser = this.state.users.filter(x => x.userUid === user.uid);
+              this.setState({ currentUser: currentUser[0] })
+            })
+        }
+        else {
+          this.setState({ currentUser: {} })
+        }
+      })
     })
   }
 
@@ -114,7 +119,7 @@ class App extends Component {
 
   handleOpenChat = (u) => {
 
-    if(this.state.chatBoxes.indexOf(u) === -1) {
+    if (this.state.chatBoxes.indexOf(u) === -1) {
       this.setState(prevState => ({
         chatBoxes: [...prevState.chatBoxes, u]
       }))
@@ -154,7 +159,7 @@ class App extends Component {
         <div>
           <ul>
             {
-              messages.map( (message, i) => {
+              messages.map((message, i) => {
                 return (
                   <li key={i}>{`${message.message} <== ${message.senderName}`}</li>
                 )
@@ -162,17 +167,24 @@ class App extends Component {
             }
           </ul>
         </div>
-        
+
         <button onClick={() => this.handleChatBoxClose(data)}>Close Chat Box</button>
       </div>
     )
+  }
+
+  handleLogOut = () => {
+    firebase.auth().signOut()
+      .then(() => {
+        firebase.database().ref(`users/${this.state.currentUser.userUid}/isActive`).set(false)
+      })
   }
 
   render() {
 
     let users = [];
 
-    if (this.state.currentUser) {
+    if (Object.entries(this.state.currentUser).length !== 0) {
       users = this.state.users.filter(user => user.userUid !== this.state.currentUser.userUid);
     }
 
@@ -182,7 +194,12 @@ class App extends Component {
       <div className="App">
 
         {
-          this.state.currentUser ? <h3>Current User: {this.state.currentUser.userName}</h3> : "Please Sign In"
+          Object.entries(this.state.currentUser).length !== 0 ? (
+            <div>
+              <h3>Current User: {this.state.currentUser.userName}</h3>
+              <button onClick={this.handleLogOut}>Log Out</button>
+            </div>
+          ) : "Please Sign In"
         }
 
         <hr />
@@ -191,7 +208,7 @@ class App extends Component {
           {
             users.map((user) => {
               return (
-                <li key={user.userUid} onClick={() => this.handleOpenChat(user)}>{user.userName}</li>
+                <li key={user.userUid} onClick={() => this.handleOpenChat(user)}>{`${user.userName} (${user.isActive ? "Online" : "Offline"})`}</li>
               )
             })
           }
