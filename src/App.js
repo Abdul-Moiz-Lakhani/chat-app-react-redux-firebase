@@ -163,7 +163,7 @@ class App extends Component {
             {
               messagesList.map((message, i) => {
                 return (
-                  <li key={i}>{`${message.message} <== ${message.senderName}`}</li>
+                  <li key={i}>{`${message.message} <== ${message.senderName === this.state.currentUser.userName ? "You" : message.senderName}`}</li>
                 )
               })
             }
