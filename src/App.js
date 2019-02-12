@@ -140,6 +140,8 @@ class App extends Component {
 
     let { messages } = this.state;
 
+    let messagesList = messages.filter( message => ((message.senderId === data.userUid && message.receiverId === this.state.currentUser.userUid) || (message.senderId === this.state.currentUser.userUid && message.receiverId === data.userUid)));
+
     return (
       <div id="content" key={data.userUid}>
 
@@ -159,7 +161,7 @@ class App extends Component {
         <div>
           <ul>
             {
-              messages.map((message, i) => {
+              messagesList.map((message, i) => {
                 return (
                   <li key={i}>{`${message.message} <== ${message.senderName}`}</li>
                 )
