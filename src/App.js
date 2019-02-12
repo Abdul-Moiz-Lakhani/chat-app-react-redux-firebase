@@ -14,7 +14,7 @@ class App extends Component {
     messages: [],
     users: [],
     currentUser: {},
-    chatBoxes: [],
+    chatBoxes: {}
   }
 
   handleChange = (ev) => {
@@ -118,18 +118,18 @@ class App extends Component {
   }
 
   handleOpenChat = (u) => {
-
-    if (this.state.chatBoxes.indexOf(u) === -1) {
+    
+    if(!this.state.chatBoxes.hasOwnProperty(u.userUid)) {
       this.setState(prevState => ({
-        chatBoxes: [...prevState.chatBoxes, u]
+        chatBoxes: {...prevState.chatBoxes, [u.userUid]: u}
       }))
     }
+    
   }
 
   handleChatBoxClose = (id) => {
     let list = this.state.chatBoxes;
-    let position = list.indexOf(id);
-    list.splice(position, 1);
+    delete list[id.userUid];
 
     this.setState({
       chatBoxes: list
@@ -253,7 +253,7 @@ class App extends Component {
         <hr />
 
         {
-          chatBoxes.map((chatBox, i) => this.insertChatBox(chatBox, i))
+          Object.values(chatBoxes).map((chatBox, i) => this.insertChatBox(chatBox, i))
         }
 
       </div>
