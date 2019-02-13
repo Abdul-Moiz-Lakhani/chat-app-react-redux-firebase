@@ -5,19 +5,15 @@ import { connect } from "react-redux";
 import { updateCurrentUser } from "./store/actions/updateCurrentUser";
 import { updateUsersList } from "./store/actions/updateUsersList";
 import { updateMessagesList } from "./store/actions/updateMessagesList";
-import { makeNewUser } from "./store/actions/userSignUp";
-import { signInUser } from "./store/actions/userSignIn";
 import { signOutUser } from "./store/actions/userSignOut";
 import { sendMessage } from "./store/actions/sendMessage";
+import {InputMessageField} from "./components/inputField";
+import SignUpForm from "./containers/signUpForm";
+import SignInForm from "./containers/signInForm";
 
 class App extends Component {
   state = {
     messageInput: "",
-    userName: "",
-    userEmail: "",
-    userPass: "",
-    userSignInEmail: "",
-    userSignInPass: "",
     chatBoxes: {}
   };
 
@@ -27,47 +23,15 @@ class App extends Component {
     });
   };
 
-  handleSignUp = ev => {
-    ev.preventDefault();
-
-    this.props.makeNewUser(
-      this.state.userName,
-      this.state.userEmail,
-      this.state.userPass
-    );
-  };
-
-  handleSignIn = ev => {
-    ev.preventDefault();
-
-    this.props.signInUser(
-      this.state.userSignInEmail,
-      this.state.userSignInPass
-    );
-  };
-
   componentDidUpdate(prevProps) {
-
     if (this.props !== prevProps) {
-
       let id = "";
 
-      if(this.props.messages[this.props.messages.length-1] !== undefined) {
-        id = this.props.messages[this.props.messages.length-1].receiverId;
+      if (this.props.messages[this.props.messages.length - 1] !== undefined) {
+        id = this.props.messages[this.props.messages.length - 1].receiverId;
       }
 
-      if (this.props.signUpSuccessStatus) {
-        this.setState({
-          userName: "",
-          userEmail: "",
-          userPass: ""
-        });
-      } else if (this.props.signInSuccessStatus) {
-        this.setState({
-          userSignInEmail: "",
-          userSignInPass: ""
-        });
-      } else if (this.props.sendMessageSuccessStatus) {
+      if (this.props.sendMessageSuccessStatus) {
         this.refs[id].value = "";
       } else if (this.props.signOutSuccessStatus) {
         this.setState({
@@ -159,7 +123,7 @@ class App extends Component {
 
         <form onSubmit={ev => this.handleSubmit(data, ev)}>
           <label htmlFor="messageInput">Message: </label>
-          <input
+          <InputMessageField
             type="text"
             defaultValue=""
             ref={data.userUid}
@@ -235,70 +199,11 @@ class App extends Component {
 
         <hr />
 
-        <form id="sign-up-form" onSubmit={this.handleSignUp}>
-          <label htmlFor="userName">Name: </label>
-          <input
-            type="text"
-            id="userName"
-            name="userName"
-            value={this.state.userName}
-            onChange={this.handleChange}
-          />
-
-          <br />
-
-          <label htmlFor="userEmail">Email: </label>
-          <input
-            type="text"
-            id="userEmail"
-            name="userEmail"
-            value={this.state.userEmail}
-            onChange={this.handleChange}
-          />
-
-          <br />
-
-          <label htmlFor="userPass">Password: </label>
-          <input
-            type="password"
-            id="userPass"
-            name="userPass"
-            value={this.state.userPass}
-            onChange={this.handleChange}
-          />
-
-          <button type="submit" className="submit-btn">
-            Sign Up
-          </button>
-        </form>
+        <SignUpForm />
 
         <hr />
 
-        <form id="sign-in-form" onSubmit={this.handleSignIn}>
-          <label htmlFor="userSignInEmail">Email: </label>
-          <input
-            type="text"
-            id="userSignInEmail"
-            name="userSignInEmail"
-            value={this.state.userSignInEmail}
-            onChange={this.handleChange}
-          />
-
-          <br />
-
-          <label htmlFor="userSignInPass">Password: </label>
-          <input
-            type="password"
-            id="userSignInPass"
-            name="userSignInPass"
-            value={this.state.userSignInPass}
-            onChange={this.handleChange}
-          />
-
-          <button type="submit" className="submit-btn">
-            Sign In
-          </button>
-        </form>
+        <SignInForm />
 
         <hr />
 
@@ -315,10 +220,6 @@ const mapStateToProps = state => {
     currentUser: state.currentUser.data,
     users: state.usersList.data,
     messages: state.messagesList.data,
-    signUpSuccessStatus: state.signUpStatus.success,
-    signUpError: state.signUpStatus.error,
-    signInSuccessStatus: state.signInStatus.success,
-    signInError: state.signInStatus.error,
     signOutSuccessStatus: state.signOutStatus.success,
     signOutError: state.signOutStatus.error,
     sendMessageSuccessStatus: state.sendMessageStatus.success,
@@ -336,12 +237,6 @@ const mapDispatchToProps = dispatch => {
     },
     updateMessagesList: data => {
       dispatch(updateMessagesList(data));
-    },
-    makeNewUser: (name, email, pass) => {
-      dispatch(makeNewUser(name, email, pass));
-    },
-    signInUser: (email, pass) => {
-      dispatch(signInUser(email, pass));
     },
     signOutUser: id => {
       dispatch(signOutUser(id));
