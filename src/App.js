@@ -7,6 +7,8 @@ import { updateUsersList } from "./store/actions/updateUsersList";
 import { updateMessagesList } from "./store/actions/updateMessagesList";
 import { makeNewUser } from "./store/actions/userSignUp";
 import { signInUser } from "./store/actions/userSignIn";
+import { signOutUser } from "./store/actions/userSignOut";
+import { sendMessage } from "./store/actions/sendMessage";
 
 class App extends Component {
   state = {
@@ -45,7 +47,15 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps) {
+
     if (this.props !== prevProps) {
+
+      let id = "";
+
+      if(this.props.messages[this.props.messages.length-1] !== undefined) {
+        id = this.props.messages[this.props.messages.length-1].receiverId;
+      }
+
       if (this.props.signUpSuccessStatus) {
         this.setState({
           userName: "",
@@ -56,6 +66,12 @@ class App extends Component {
         this.setState({
           userSignInEmail: "",
           userSignInPass: ""
+        });
+      } else if (this.props.sendMessageSuccessStatus) {
+        this.refs[id].value = "";
+      } else if (this.props.signOutSuccessStatus) {
+        this.setState({
+          chatBoxes: {}
         });
       }
     }
@@ -95,25 +111,16 @@ class App extends Component {
   handleSubmit = (data, ev) => {
     ev.preventDefault();
 
+    let message = this.refs[data.userUid].value;
+
     let details = {
       senderId: this.props.currentUser.userUid,
       receiverId: data.userUid,
-      message: this.state.messageInput,
+      message,
       senderName: this.props.currentUser.userName
     };
 
-    firebase
-      .database()
-      .ref("messages")
-      .push(details)
-      .then(snap => {
-        this.setState({
-          messageInput: ""
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.props.sendMessage(details);
   };
 
   handleOpenChat = u => {
@@ -154,10 +161,9 @@ class App extends Component {
           <label htmlFor="messageInput">Message: </label>
           <input
             type="text"
+            defaultValue=""
+            ref={data.userUid}
             id="messageInput"
-            name="messageInput"
-            value={this.state.messageInput}
-            onChange={this.handleChange}
           />
 
           <button type="submit">Send</button>
@@ -187,17 +193,7 @@ class App extends Component {
   };
 
   handleLogOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.setState({ chatBoxes: {} });
-
-        firebase
-          .database()
-          .ref(`users/${this.props.currentUser.userUid}/isActive`)
-          .set(false);
-      });
+    this.props.signOutUser(this.props.currentUser.userUid);
   };
 
   render() {
@@ -322,7 +318,11 @@ const mapStateToProps = state => {
     signUpSuccessStatus: state.signUpStatus.success,
     signUpError: state.signUpStatus.error,
     signInSuccessStatus: state.signInStatus.success,
-    signInError: state.signInStatus.error
+    signInError: state.signInStatus.error,
+    signOutSuccessStatus: state.signOutStatus.success,
+    signOutError: state.signOutStatus.error,
+    sendMessageSuccessStatus: state.sendMessageStatus.success,
+    sendMessageError: state.sendMessageStatus.error
   };
 };
 
@@ -342,6 +342,12 @@ const mapDispatchToProps = dispatch => {
     },
     signInUser: (email, pass) => {
       dispatch(signInUser(email, pass));
+    },
+    signOutUser: id => {
+      dispatch(signOutUser(id));
+    },
+    sendMessage: data => {
+      dispatch(sendMessage(data));
     }
   };
 };

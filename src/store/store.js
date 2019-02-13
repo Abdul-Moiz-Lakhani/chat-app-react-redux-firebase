@@ -5,7 +5,9 @@ import usersList from "./reducers/usersList";
 import messagesList from "./reducers/messagesList";
 import signUpStatus from "./reducers/signUpStatus";
 import signInStatus from "./reducers/signInStatus";
+import signOutStatus from "./reducers/signOutStatus";
+import sendMessageStatus from "./reducers/sendMessageStatus";
 
-const AllReducers = {currentUser, usersList, messagesList, signUpStatus, signInStatus};
+const AllReducers = {currentUser, usersList, messagesList, signUpStatus, signInStatus, signOutStatus,sendMessageStatus};
 
 export default createStore(combineReducers(AllReducers), {}, applyMiddleware(thunk))
