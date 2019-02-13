@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { updateCurrentUser } from "./store/actions/updateCurrentUser";
 import { updateUsersList } from "./store/actions/updateUsersList";
 import { updateMessagesList } from "./store/actions/updateMessagesList";
-import { signOutUser } from "./store/actions/userSignOut";
 import { sendMessage } from "./store/actions/sendMessage";
 import {InputMessageField} from "./components/inputField";
+import Header from "./components/header";
 import SignUpForm from "./containers/signUpForm";
 import SignInForm from "./containers/signInForm";
 
@@ -156,10 +156,6 @@ class App extends Component {
     );
   };
 
-  handleLogOut = () => {
-    this.props.signOutUser(this.props.currentUser.userUid);
-  };
-
   render() {
     let users = [];
 
@@ -173,14 +169,8 @@ class App extends Component {
 
     return (
       <div className="App">
-        {Object.entries(this.props.currentUser).length !== 0 ? (
-          <div>
-            <h3>Current User: {this.props.currentUser.userName}</h3>
-            <button onClick={this.handleLogOut}>Log Out</button>
-          </div>
-        ) : (
-          "Please Sign In"
-        )}
+
+        <Header />
 
         <hr />
 
@@ -220,8 +210,6 @@ const mapStateToProps = state => {
     currentUser: state.currentUser.data,
     users: state.usersList.data,
     messages: state.messagesList.data,
-    signOutSuccessStatus: state.signOutStatus.success,
-    signOutError: state.signOutStatus.error,
     sendMessageSuccessStatus: state.sendMessageStatus.success,
     sendMessageError: state.sendMessageStatus.error
   };
@@ -237,9 +225,6 @@ const mapDispatchToProps = dispatch => {
     },
     updateMessagesList: data => {
       dispatch(updateMessagesList(data));
-    },
-    signOutUser: id => {
-      dispatch(signOutUser(id));
     },
     sendMessage: data => {
       dispatch(sendMessage(data));
