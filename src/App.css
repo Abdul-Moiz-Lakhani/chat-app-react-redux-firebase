@@ -49,3 +49,13 @@
 #chatbox {
     margin: 0 15px;
 }
+
+#forms-container {
+    padding: 0 5%;
+    display: flex;
+}
+
+#sign-up-form, #sign-in-form {
+    text-align: center;
+}
+

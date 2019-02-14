@@ -56,7 +56,6 @@ class App extends Component {
 
             <SignInForm />
 
-            <hr />
           </div>
         ) : null}
 
