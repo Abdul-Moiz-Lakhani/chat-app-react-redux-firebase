@@ -1,13 +1,13 @@
 {
-  "main.css": "/chat-app-react-redux-firebase/static/css/main.9cef6933.chunk.css",
-  "main.js": "/chat-app-react-redux-firebase/static/js/main.b192fb82.chunk.js",
-  "main.js.map": "/chat-app-react-redux-firebase/static/js/main.b192fb82.chunk.js.map",
+  "main.css": "/chat-app-react-redux-firebase/static/css/main.4833cf70.chunk.css",
+  "main.js": "/chat-app-react-redux-firebase/static/js/main.2a93e211.chunk.js",
+  "main.js.map": "/chat-app-react-redux-firebase/static/js/main.2a93e211.chunk.js.map",
   "runtime~main.js": "/chat-app-react-redux-firebase/static/js/runtime~main.c675011b.js",
   "runtime~main.js.map": "/chat-app-react-redux-firebase/static/js/runtime~main.c675011b.js.map",
-  "static/js/2.603347a8.chunk.js": "/chat-app-react-redux-firebase/static/js/2.603347a8.chunk.js",
-  "static/js/2.603347a8.chunk.js.map": "/chat-app-react-redux-firebase/static/js/2.603347a8.chunk.js.map",
+  "static/js/2.31e7dd9f.chunk.js": "/chat-app-react-redux-firebase/static/js/2.31e7dd9f.chunk.js",
+  "static/js/2.31e7dd9f.chunk.js.map": "/chat-app-react-redux-firebase/static/js/2.31e7dd9f.chunk.js.map",
   "index.html": "/chat-app-react-redux-firebase/index.html",
-  "precache-manifest.3be12788dfb341b1526e5cbe17238a5a.js": "/chat-app-react-redux-firebase/precache-manifest.3be12788dfb341b1526e5cbe17238a5a.js",
+  "precache-manifest.63d67057569d68f9e709914c76a1fb30.js": "/chat-app-react-redux-firebase/precache-manifest.63d67057569d68f9e709914c76a1fb30.js",
   "service-worker.js": "/chat-app-react-redux-firebase/service-worker.js",
-  "static/css/main.9cef6933.chunk.css.map": "/chat-app-react-redux-firebase/static/css/main.9cef6933.chunk.css.map"
+  "static/css/main.4833cf70.chunk.css.map": "/chat-app-react-redux-firebase/static/css/main.4833cf70.chunk.css.map"
 }
