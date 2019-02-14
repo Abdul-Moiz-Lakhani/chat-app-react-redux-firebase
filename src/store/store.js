@@ -7,7 +7,21 @@ import signUpStatus from "./reducers/signUpStatus";
 import signInStatus from "./reducers/signInStatus";
 import signOutStatus from "./reducers/signOutStatus";
 import sendMessageStatus from "./reducers/sendMessageStatus";
+import chatBoxesList from "./reducers/chatBoxesList";
 
-const AllReducers = {currentUser, usersList, messagesList, signUpStatus, signInStatus, signOutStatus,sendMessageStatus};
+const AllReducers = {
+  currentUser,
+  usersList,
+  messagesList,
+  signUpStatus,
+  signInStatus,
+  signOutStatus,
+  sendMessageStatus,
+  chatBoxesList
+};
 
-export default createStore(combineReducers(AllReducers), {}, applyMiddleware(thunk))
+export default createStore(
+  combineReducers(AllReducers),
+  {},
+  applyMiddleware(thunk)
+);

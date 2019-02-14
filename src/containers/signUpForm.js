@@ -40,7 +40,8 @@ class SignUpForm extends Component {
 
   render() {
     return (
-      <div>
+      <div id="sign-up-form">
+        <h3>Sign Up Form</h3>
         <form id="sign-up-form" onSubmit={this.handleSignUp}>
           <label htmlFor="userName">Name: </label>
           <InputField

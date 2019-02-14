@@ -1,32 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signOutUser } from "./../store/actions/userSignOut";
+import { clearChatBoxes } from "./../store/actions/clearChatBoxes";
 
-const Header = (props) => {
-
-  let handleLogOut = () => {
-    props.signOutUser(props.currentUser.userUid);
+class Header extends Component {
+  handleLogOut = () => {
+    this.props.signOutUser(this.props.currentUser.userUid);
   };
 
-  return (
-    <div id="header">
-      {Object.entries(props.currentUser).length !== 0 ? (
-        <header>
-          <h3>Current User: {props.currentUser.userName}</h3>
-          <button onClick={handleLogOut}>Log Out</button>
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      if (this.props.signOutSuccessStatus) {
+        this.props.clearChatBoxes({});
+      }
+    }
+  }
+
+  render() {
+    return (
+      <div id="headerContainer">
+        <header id="header">
+          <div id="headerLeft">
+            <h3>BINGO CHAT APP</h3>
+          </div>
+          {Object.entries(this.props.currentUser).length !== 0 ? (
+            <div id="headerRight">
+              <h3>{this.props.currentUser.userName}</h3>
+              <button onClick={this.handleLogOut}>Log Out</button>
+            </div>
+          ) : null}
         </header>
-      ) : (
-        "Please Sign In"
-      )}
-    </div>
-  );
-};
+
+        <hr />
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser.data,
     signOutSuccessStatus: state.signOutStatus.success,
-    signOutError: state.signOutStatus.error 
+    signOutError: state.signOutStatus.error
   };
 };
 
@@ -34,6 +49,9 @@ const mapDispatchToProps = dispatch => {
   return {
     signOutUser: id => {
       dispatch(signOutUser(id));
+    },
+    clearChatBoxes: data => {
+      dispatch(clearChatBoxes(data));
     }
   };
 };
