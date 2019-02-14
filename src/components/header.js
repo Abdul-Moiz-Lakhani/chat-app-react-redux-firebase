@@ -22,7 +22,7 @@ class Header extends Component {
       <div id="headerContainer">
         <header id="header">
           <div id="headerLeft">
-            <p className="logo">Bingo Chat App</p>
+            <p className="logo">Bingo Chat Portal</p>
           </div>
           {Object.entries(this.props.currentUser).length !== 0 ? (
             <div id="headerRight">
