@@ -1,8 +1,6 @@
 @import "./../1.settings/colors.scss";
 @import "./../1.settings/fonts.scss";
 
-$minWidth: 150px;
-
 #headerContainer {
   background-color: $primary;
   width: 100%;
@@ -17,7 +15,6 @@ $minWidth: 150px;
 
     #headerLeft {
       flex: 1;
-      min-width: $minWidth;
 
       .logo {
         color: $white;
@@ -31,7 +28,6 @@ $minWidth: 150px;
     #headerRight {
       display: flex;
       flex: 1;
-      min-width: $minWidth;
       justify-content: flex-end;
 
       .userName {
