@@ -18,12 +18,12 @@ const UsersList = props => {
   };
 
   return (
-    <div id="users-list-container">
+    <div id="users-list-container" key={props.key}>
       <h3 className="user-list-head">Users List</h3>
       <ul className="user-list">
-        {users.map(user => {
+        {users.map((user, i) => {
           return (
-            <li key={user.userUid} onClick={() => handleOpenChat(user)}>{`${
+            <li key={i} onClick={() => handleOpenChat(user)}>{`${
               user.userName
             } (${user.isActive ? "Online" : "Offline"})`}</li>
           );

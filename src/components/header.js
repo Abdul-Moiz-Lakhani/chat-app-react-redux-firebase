@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { signOutUser } from "./../store/actions/userSignOut";
 import { clearChatBoxes } from "./../store/actions/clearChatBoxes";
+import "./../scss/6.components/header.scss";
 
 class Header extends Component {
   handleLogOut = () => {
@@ -21,17 +22,15 @@ class Header extends Component {
       <div id="headerContainer">
         <header id="header">
           <div id="headerLeft">
-            <h3>BINGO CHAT APP</h3>
+            <p className="logo">Bingo Chat App</p>
           </div>
           {Object.entries(this.props.currentUser).length !== 0 ? (
             <div id="headerRight">
-              <h3>{this.props.currentUser.userName}</h3>
-              <button onClick={this.handleLogOut}>Log Out</button>
+              <h3 className="userName">{this.props.currentUser.userName}</h3>
+              <button className="logOutBtn" onClick={this.handleLogOut}>Log Out</button>
             </div>
           ) : null}
         </header>
-
-        <hr />
       </div>
     );
   }

@@ -1,0 +1,63 @@
+@import "./../1.settings/colors.scss";
+@import "./../1.settings/fonts.scss";
+
+$minWidth: 150px;
+
+#headerContainer {
+  background-color: $primary;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+
+  #header {
+    margin: auto;
+    width: 90%;
+    height: inherit;
+    display: flex;
+
+    #headerLeft {
+      flex: 1;
+      min-width: $minWidth;
+
+      .logo {
+        color: $white;
+        font-family: $font;
+        font-size: 1.5em;
+        margin: 0;
+        padding: 0.55em 0;
+      }
+    }
+
+    #headerRight {
+      display: flex;
+      flex: 1;
+      min-width: $minWidth;
+      justify-content: flex-end;
+
+      .userName {
+        color: $white;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+      }
+
+      .logOutBtn {
+        margin-left: 20px;
+        width: 80px;
+        height: 35px;
+        outline: none;
+        border-radius: 5px;
+        border: none;
+        align-self: center;
+        background-color: $btnPrimary;
+        color: $white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .logOutBtn:hover {
+        background-color: $btnSecondary;
+        color: $btnPrimary;
+      }
+    }
+  }
+}

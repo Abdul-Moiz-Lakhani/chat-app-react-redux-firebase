@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import "./App.scss";
 import firebase from "firebase/app";
 import { connect } from "react-redux";
 import { updateCurrentUser } from "./store/actions/updateCurrentUser";

@@ -1,24 +1,3 @@
-#header {
-    padding: 0 5%;
-}
-
-#header, #headerRight {
-    display: flex;
-}
-
-#headerLeft {
-    flex: 1;
-}
-
-#headerRight {
-    flex: 1;
-    justify-content: flex-end;
-}
-
-#headerRight > button {
-    margin-left: 20px;
-}
-
 .user-list-head {
     text-align: center;
     margin: 0;
